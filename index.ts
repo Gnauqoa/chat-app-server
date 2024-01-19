@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import express from "express";
 import http from "http";
 import { Server, Socket } from "socket.io";
@@ -9,7 +10,6 @@ const io = new Server(server);
 
 app.use(express.json());
 app.use(router);
-
 io.on("connection", (socket: Socket) => {
   console.log("A user connected");
 
@@ -20,6 +20,8 @@ io.on("connection", (socket: Socket) => {
 
 const PORT = process.env.PORT || 3000;
 
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
+  console.log(await bcrypt.hash("12345678", 10));
+
   console.log(`Server is running on http://localhost:${PORT}`);
 });
