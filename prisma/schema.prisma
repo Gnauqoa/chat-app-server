@@ -20,7 +20,7 @@ model User {
   featureFlagId Int?
   roles         Role[]
   JWTtoken      JWTtoken[]
-  Room          Room[]
+  rooms         Room[]
 }
 
 model JWTtoken {
@@ -62,7 +62,7 @@ model Room {
 
 model Message {
   id        Int      @id @default(autoincrement())
-  text      String
+  message   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deleted   Boolean  @default(false)

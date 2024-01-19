@@ -1,13 +1,7 @@
-import { Request, Response } from 'express';
-import MessageService from '../services/messageService';
+import { Request, Response } from "express";
+import prisma from "../config/prisma";
 
 class MessageController {
-  private messageService: MessageService;
-
-  constructor() {
-    this.messageService = new MessageService();
-  }
-
   // Implement controller methods for message management
 }
 

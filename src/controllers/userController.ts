@@ -1,20 +1,14 @@
 import { Request, Response } from "express";
-import UserService from "../services/userService";
+import { signIn } from "../services/userService";
 import { errorType } from "../utils/auth";
 import prisma from "../config/prisma";
 
 class UserController {
-  private userService: UserService;
-
-  constructor() {
-    this.userService = new UserService();
-  }
-
   async signIn(req: Request, res: Response) {
     const { username, password } = req.body;
+
     try {
-      // Implement authentication logic (you may use a library like bcrypt for password hashing)
-      const token = await this.userService.signIn(username, password);
+      const token = await signIn(username, password);
 
       if (token) {
         return res.status(200).json(token);

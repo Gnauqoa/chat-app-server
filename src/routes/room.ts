@@ -1,9 +1,13 @@
-import express from 'express';
-import RoomController from '../controllers/roomController';
+import express from "express";
+import RoomController from "../controllers/roomController";
+import authenticateToken from "../middleware/authUser";
 
 const roomRouter = express.Router();
 const roomController = new RoomController();
 
-// Define routes for room management
-
+roomRouter.post(
+  "/:id/message",
+  [authenticateToken],
+  roomController.createMessage
+);
 export default roomRouter;

@@ -5,8 +5,8 @@ import userRouter from "./user";
 
 const router = express.Router();
 
-router.use("/message", messageRouter);
-router.use("/room", roomRouter);
-router.use("/user", userRouter);
+router.use("/messages", messageRouter);
+router.use("/rooms", roomRouter);
+router.use("/users", userRouter);
 
 export default router;
