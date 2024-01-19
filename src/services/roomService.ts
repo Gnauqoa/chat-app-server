@@ -1,9 +1,12 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
+import { createAsyncFcError } from "../utils/auth";
 
 const prisma = new PrismaClient();
 
-class RoomService {
-  // Implement service methods for room management
-}
-
-export default RoomService;
+export const getMessages = async ({ roomId }: { roomId: number }) => {
+  if (!roomId)
+    return createAsyncFcError({ message: "Room id is required", status: 404 });
+  return await prisma.message.findMany({
+    where: { roomId },
+  });
+};

@@ -10,4 +10,5 @@ roomRouter.post(
   [authenticateToken],
   roomController.createMessage
 );
+roomRouter.get("/:id/messages", [authenticateToken], roomController.getMessages);
 export default roomRouter;
