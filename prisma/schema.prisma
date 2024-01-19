@@ -20,7 +20,21 @@ model User {
   featureFlagId Int?
   roles         Role[]
   JWTtoken      JWTtoken[]
-  rooms         Room[]
+  rooms         RoomUser[]
+  Room          Room[]
+}
+
+model RoomUser {
+  userId    Int
+  roomId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Define the relationships with User and Room
+  user User @relation(fields: [userId], references: [id])
+  room Room @relation(fields: [roomId], references: [id])
+
+  @@id([userId, roomId])
 }
 
 model JWTtoken {
@@ -51,13 +65,18 @@ model FeatureFlag {
 }
 
 model Room {
-  id        Int       @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   name      String
-  onwerId   Int
-  onwer     User      @relation(fields: [onwerId], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  message   Message[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ownerId   Int
+
+  // Define the one-to-many relationship with Message
+  messages Message[]
+
+  // Define the one-to-many relationship with RoomUser
+  users RoomUser[]
+  owner User       @relation(fields: [ownerId], references: [id])
 }
 
 model Message {

@@ -33,8 +33,7 @@ export const createMessage = async ({
   if (!room)
     return createAsyncFcError({ message: "Can't found room", status: 404 });
   const user = await prisma.user.findUnique({
-    where: { id: userId },
-    include: { rooms: { where: { id: room.id } } },
+    where: { id: userId, rooms: { some: { roomId } } },
   });
   if (!user)
     return createAsyncFcError({ message: "Can't found user", status: 404 });
