@@ -20,14 +20,22 @@ async function main() {
   });
   const rooms = await Promise.all(
     Array.from({ length: totalRoom }, async (_, index) => {
-      return await prisma.room.create({
+      const room = await prisma.room.create({
         data: {
           name: `room ${index}`,
           ownerId: admin.id,
         },
       });
+      await prisma.roomUser.create({
+        data: {
+          userId: admin.id,
+          roomId: room.id,
+        },
+      });
+      return room;
     })
   );
+
   console.time(`👤 Created ${totalUsers} users...`);
   const users = await Promise.all(
     Array.from({ length: totalUsers }, async (_, index) => {
