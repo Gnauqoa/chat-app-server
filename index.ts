@@ -10,7 +10,7 @@ const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: true } });
 
 app.use(express.json());
-app.use(router);
+app.use("/api/v1", router);
 
 // Custom error handling middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
