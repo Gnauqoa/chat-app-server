@@ -1,10 +1,21 @@
-import { Request, Response } from "express";
-import { signIn, userSelect } from "../services/userService";
+import { NextFunction, Request, Response } from "express";
+import { signIn, updateUser, userSelect } from "../services/userService";
 import { errorType } from "../utils/auth";
 import prisma from "../config/prisma";
 
 class UserController {
-  async signIn(req: Request, res: Response) {
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { name } = req.body;
+      const { userId } = res.locals.user;
+      return res
+        .status(200)
+        .json({ data: await updateUser({ name, id: userId }) });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async signIn(req: Request, res: Response, next: NextFunction) {
     const { username, password } = req.body;
 
     try {
@@ -16,19 +27,22 @@ class UserController {
         return res.status(401).json({ message: "Invalid credentials" });
       }
     } catch (error) {
-      const err = error as errorType;
-      return res.status(err.status).json({ message: err.message });
+      next(error);
     }
   }
-  async current(req: Request, res: Response) {
-    if (!res.locals.user.userId)
-      return res.status(401).json({ message: "Unauthorized" });
-    return res.status(200).json({
-      data: await prisma.user.findUnique({
-        where: { id: res.locals.user.userId },
-        select: userSelect,
-      }),
-    });
+  async current(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!res.locals.user.userId)
+        return res.status(401).json({ message: "Unauthorized" });
+      return res.status(200).json({
+        data: await prisma.user.findUnique({
+          where: { id: res.locals.user.userId },
+          select: userSelect,
+        }),
+      });
+    } catch (err) {
+      next(err);
+    }
   }
 }
 

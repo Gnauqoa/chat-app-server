@@ -11,6 +11,19 @@ export const userSelect = Prisma.validator<Prisma.UserSelect>()({
   updatedAt: true,
   email: true,
 });
+export const updateUser = async ({
+  name,
+  id,
+}: {
+  id: number;
+  name: string;
+}) => {
+  const user = await prisma.user.update({
+    where: { id },
+    data: { name },
+  });
+  return user;
+};
 export const signIn = async (usernameOrEmail: string, password: string) => {
   const user = await prisma.user.findFirst({
     where: {

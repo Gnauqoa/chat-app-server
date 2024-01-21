@@ -10,7 +10,7 @@ class RoomController {
 
     try {
       const newMessage = await createMessage({ message, userId, roomId });
-      return res.status(201).json(newMessage);
+      return res.status(201).json({ data: newMessage });
     } catch (error) {
       next(error);
     }
@@ -39,15 +39,15 @@ class RoomController {
       const take = parseInt(req.query.limit as string);
       const page = parseInt(req.query.page as string);
 
-      return res.status(200).json(
-        await getRooms({
+      return res.status(200).json({
+        data: await getRooms({
           query,
           userId,
           skip,
           take,
           page,
-        })
-      );
+        }),
+      });
     } catch (err) {
       next(err);
     }

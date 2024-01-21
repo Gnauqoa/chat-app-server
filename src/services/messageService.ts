@@ -37,9 +37,7 @@ export const createMessage = async ({
   });
   if (!user)
     return createAsyncFcError({ message: "Can't found user", status: 404 });
-  return {
-    data: await prisma.message.create({
-      data: { message, userId, roomId },
-    }),
-  };
+  return await prisma.message.create({
+    data: { message, userId, roomId },
+  });
 };
