@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { getMessages, getRooms } from "../services/roomService";
 import { createMessage } from "../services/messageService";
+import { io } from "../..";
 
 class RoomController {
   async createMessage(req: Request, res: Response, next: NextFunction) {
@@ -10,6 +11,7 @@ class RoomController {
 
     try {
       const newMessage = await createMessage({ message, userId, roomId });
+      io.to(`room-${roomId}`).emit("newMessage", { data: newMessage });
       return res.status(201).json({ data: newMessage });
     } catch (error) {
       next(error);

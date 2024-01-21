@@ -21,9 +21,16 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
 io.on("connection", (socket: Socket) => {
   console.log("A user connected", socket.id);
+
+  socket.on("joinRoom", (room) => {
+    console.log(`User joined room-${room}`);
+    socket.join(`room-${room}`);
+  });
+
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });
+  socket.on;
 });
 
 const PORT = process.env.PORT || 3000;

@@ -59,9 +59,10 @@
     }
 
     function displayMessage(data) {
+      console.log("new")
       const messagesContainer = document.getElementById('messages');
       const messageElement = document.createElement('div');
-      messageElement.textContent = `${data.userId}: ${data.text}`;
+      messageElement.textContent = `${data.data.user.name}: ${data.data.message}`;
       messagesContainer.appendChild(messageElement);
     }
   </script>
