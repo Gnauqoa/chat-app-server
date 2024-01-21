@@ -9,6 +9,7 @@ const formatPagination = (req: Request, res: Response, next: NextFunction) => {
     const formattedQuery: ParsedQs = {
       ...req.query,
       offset,
+      page: parsedPage.toString(),
       limit: parsedLimit.toString(),
     };
 

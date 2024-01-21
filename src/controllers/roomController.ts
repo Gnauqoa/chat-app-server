@@ -18,6 +18,7 @@ class RoomController {
   async getMessages(req: Request, res: Response, next: NextFunction) {
     try {
       const roomId = Number(req.params.roomId);
+
       return res.status(200).json({
         data: await getMessages({
           roomId,

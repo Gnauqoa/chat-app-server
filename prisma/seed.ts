@@ -46,6 +46,11 @@ async function main() {
                 roomId: rooms[0].id,
               },
             },
+            rooms: {
+              create: {
+                roomId: rooms[0].id,
+              },
+            },
           },
         })
         .catch(() => null);

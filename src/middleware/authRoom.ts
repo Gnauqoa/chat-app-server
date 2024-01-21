@@ -3,11 +3,7 @@ import prisma from "../config/prisma";
 
 export type RoomPrivateRequest = Request<{ roomId: number }>;
 
-const authRoom = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const authRoom = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = res.locals.user;
     const roomId = Number(req.params.roomId);
