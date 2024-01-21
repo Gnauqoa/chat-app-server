@@ -7,7 +7,7 @@ import { errorType } from "./src/utils/auth";
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, { cors: { origin: true } });
 
 app.use(express.json());
 app.use(router);
@@ -20,8 +20,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 io.on("connection", (socket: Socket) => {
-  console.log("A user connected");
-
+  console.log("A user connected", socket.id);
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });
@@ -34,3 +33,5 @@ server.listen(PORT, async () => {
 
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+export default server;
+export { io };

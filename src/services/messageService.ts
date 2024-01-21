@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { createAsyncFcError } from "../utils/auth";
+import { io } from "../..";
 
 const prisma = new PrismaClient();
 
