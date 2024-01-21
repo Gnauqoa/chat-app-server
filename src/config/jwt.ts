@@ -33,6 +33,7 @@ export function generateRefreshToken(userId: number, id: number) {
     }
   );
 }
+
 export const generateTokens = async (userId: number) => {
   const tokenRecord = await prisma.jWTtoken.create({
     data: {
