@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { userSelect } from "./userService";
 
 const prisma = new PrismaClient();
 
@@ -43,16 +44,18 @@ export const getRooms = async ({
   take: number;
   page: number;
 }) => {
-  const totalItems = await prisma.user.count({
-    where: { id: userId, name: { contains: query } },
+  const totalItems = await prisma.roomUser.count({
+    where: { userId: userId, room: { name: { contains: query } } },
   });
   return {
-    items: await prisma.user.findMany({
-      where: { id: userId, name: { contains: query } },
-      select: { rooms: true },
-      skip,
-      take,
-    }),
+    items: (
+      await prisma.roomUser.findMany({
+        where: { userId: userId, room: { name: { contains: query } } },
+        select: { room: true, user: { select: userSelect } },
+        skip,
+        take,
+      })
+    ).map((roomUser) => ({ ...roomUser.room, owner: roomUser.user })),
     per_page: take,
     page,
     total_items: totalItems,

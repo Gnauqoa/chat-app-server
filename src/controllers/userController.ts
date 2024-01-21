@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { signIn } from "../services/userService";
+import { signIn, userSelect } from "../services/userService";
 import { errorType } from "../utils/auth";
 import prisma from "../config/prisma";
 
@@ -26,6 +26,7 @@ class UserController {
     return res.status(200).json({
       data: await prisma.user.findUnique({
         where: { id: res.locals.user.userId },
+        select: userSelect,
       }),
     });
   }

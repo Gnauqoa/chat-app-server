@@ -18,4 +18,9 @@ roomRouter.get(
   [authenticateToken, authRoom, formatPagination],
   roomController.getMessages
 );
+roomRouter.get(
+  "/",
+  [authenticateToken, formatPagination],
+  roomController.getRooms
+);
 export default roomRouter;

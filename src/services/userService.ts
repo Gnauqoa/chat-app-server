@@ -1,10 +1,16 @@
 import bcrypt from "bcryptjs";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { generateTokens } from "../config/jwt";
 import { createAsyncFcError } from "../utils/auth";
 
 const prisma = new PrismaClient();
-
+export const userSelect = Prisma.validator<Prisma.UserSelect>()({
+  name: true,
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  email: true,
+});
 export const signIn = async (usernameOrEmail: string, password: string) => {
   const user = await prisma.user.findFirst({
     where: {
