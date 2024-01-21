@@ -11,7 +11,7 @@ class UserController {
       const token = await signIn(username, password);
 
       if (token) {
-        return res.status(200).json(token);
+        return res.status(200).json({ data: token });
       } else {
         return res.status(401).json({ message: "Invalid credentials" });
       }

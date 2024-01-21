@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import prisma from "../src/config/prisma";
 import {
   createPassword,
