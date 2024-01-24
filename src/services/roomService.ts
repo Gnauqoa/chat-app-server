@@ -62,3 +62,23 @@ export const getRooms = async ({
     total_pages: Math.ceil(totalItems / take),
   };
 };
+
+export const update = async ({
+  roomId,
+  name,
+}: {
+  roomId: number;
+  name: string;
+}) => {
+  return await prisma.room.update({
+    where: { id: roomId },
+    data: { name },
+    select: {
+      id: true,
+      name: true,
+      createdAt: true,
+      updatedAt: true,
+      owner: true,
+    },
+  });
+};

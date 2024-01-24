@@ -1,9 +1,22 @@
 import { NextFunction, Request, Response } from "express";
-import { getMessages, getRooms } from "../services/roomService";
+import { getMessages, getRooms, update } from "../services/roomService";
 import { createMessage } from "../services/messageService";
+
 import { io } from "../..";
 
 class RoomController {
+  async update(req: Request, res: Response, next: NextFunction) {
+    const roomId = Number(req.params.roomId);
+    const { name } = req.body;
+
+    try {
+      const updatedRoom = await update({ roomId, name });
+      return res.status(200).json({ data: updatedRoom });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async createMessage(req: Request, res: Response, next: NextFunction) {
     const roomId = Number(req.params.roomId);
     const { userId } = res.locals.user;
