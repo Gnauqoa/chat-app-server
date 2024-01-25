@@ -46,6 +46,8 @@ export const createMessage = async ({
       createdAt: true,
       user: { select: userSelect },
       updatedAt: true,
+      userId: true,
+      roomId: true,
     },
   });
 };
