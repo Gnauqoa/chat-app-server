@@ -53,7 +53,6 @@ class RoomController {
   }
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log("create room");
       const ownerId = res.locals.user.userId;
       const { users, name } = req.body;
 
