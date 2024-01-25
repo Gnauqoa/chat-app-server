@@ -11,6 +11,7 @@ export const userSelect = Prisma.validator<Prisma.UserSelect>()({
   updatedAt: true,
   email: true,
 });
+
 export const updateUser = async ({
   name,
   id,

@@ -9,5 +9,6 @@ const userController = new UserController();
 
 router.post("/signIn", userController.signIn);
 router.get("/current", [authenticateToken], userController.current);
+router.put("/current", [authenticateToken], userController.update);
 
 export default router;
