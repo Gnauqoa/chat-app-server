@@ -12,6 +12,44 @@ export const userSelect = Prisma.validator<Prisma.UserSelect>()({
   email: true,
 });
 
+export const searchUserByName = async ({
+  name,
+  skip,
+  take,
+  page,
+}: {
+  name: string;
+  skip: number;
+  take: number;
+  page: number;
+}) => {
+  const totalItems = await prisma.user.count({
+    where: {
+      name: {
+        contains: name,
+      },
+    },
+  });
+  const users = await prisma.user.findMany({
+    where: {
+      name: {
+        contains: name,
+      },
+    },
+
+    select: userSelect,
+    skip,
+    take,
+  });
+  return {
+    items: users,
+    per_page: take,
+    page: page,
+    total_items: totalItems,
+    total_pages: Math.ceil(totalItems / take),
+  };
+};
+
 export const updateUser = async ({
   name,
   id,

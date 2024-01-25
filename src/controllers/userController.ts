@@ -1,9 +1,32 @@
 import { NextFunction, Request, Response } from "express";
-import { signIn, updateUser, userSelect } from "../services/userService";
-import { errorType } from "../utils/auth";
+import {
+  searchUserByName,
+  signIn,
+  updateUser,
+  userSelect,
+} from "../services/userService";
 import prisma from "../config/prisma";
 
 class UserController {
+  async searchUserByName(req: Request, res: Response, next: NextFunction) {
+    try {
+      const name = req.query.name as string;
+      const skip = parseInt(req.query.offset as string);
+      const take = parseInt(req.query.limit as string);
+      const page = parseInt(req.query.page as string);
+
+      return res.status(200).json({
+        data: await searchUserByName({
+          name,
+          page,
+          take,
+          skip,
+        }),
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const { name } = req.body;
