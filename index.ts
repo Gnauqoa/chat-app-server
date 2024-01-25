@@ -23,8 +23,8 @@ io.on("connection", (socket: Socket) => {
   console.log("A user connected", socket.id);
 
   socket.on("joinRoom", (room) => {
-    console.log(`User joined room-${room}`);
-    socket.join(`room-${room}`);
+    console.log(`User joined room-${room.roomId}`);
+    socket.join(`room-${room.roomId}`);
   });
 
   socket.on("disconnect", () => {
