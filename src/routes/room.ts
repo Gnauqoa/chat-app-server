@@ -24,4 +24,5 @@ roomRouter.get(
   roomController.getRooms
 );
 roomRouter.put("/:roomId", authenticateToken, authRoom, roomController.update);
+roomRouter.post("/", [authenticateToken], roomController.create);
 export default roomRouter;

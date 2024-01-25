@@ -2,7 +2,40 @@ import { PrismaClient } from "@prisma/client";
 import { userSelect } from "./userService";
 
 const prisma = new PrismaClient();
-
+export const createRoom = async ({
+  users,
+  name,
+  ownerId,
+}: {
+  ownerId: number;
+  users: { id: string }[];
+  name: string;
+}) => {
+  const room = await prisma.room.create({
+    data: {
+      name,
+      ownerId,
+    },
+    select: {
+      id: true,
+      owner: true,
+      name: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+  await Promise.all(
+    users.map((user) =>
+      prisma.roomUser.create({
+        data: {
+          roomId: room.id,
+          userId: parseInt(user.id),
+        },
+      })
+    )
+  );
+  return room;
+};
 export const getMessages = async ({
   roomId,
   skip,

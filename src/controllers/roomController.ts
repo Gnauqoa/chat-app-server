@@ -1,5 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { getMessages, getRooms, update } from "../services/roomService";
+import {
+  createRoom,
+  getMessages,
+  getRooms,
+  update,
+} from "../services/roomService";
 import { createMessage } from "../services/messageService";
 
 import { io } from "../..";
@@ -42,6 +47,19 @@ class RoomController {
           page: parseInt(req.query.page as string),
         }),
       });
+    } catch (err) {
+      next(err);
+    }
+  }
+  async create(req: Request, res: Response, next: NextFunction) {
+    try {
+      console.log("create room");
+      const ownerId = res.locals.user.userId;
+      const { users, name } = req.body;
+
+      return res
+        .status(200)
+        .json({ data: await createRoom({ ownerId, users, name }) });
     } catch (err) {
       next(err);
     }
