@@ -8,6 +8,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model File {
+  id Int @id @default(autoincrement())
+
+  bolb Bytes
+  type String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  avatar Avatar?
+  Voice  Voice?
+
+  @@index([type])
+}
+
+model Voice {
+  id Int @id @default(autoincrement())
+
+  messageId Int     @unique
+  message   Message @relation(fields: [messageId], references: [id])
+
+  fileId Int  @unique
+  file   File @relation(fields: [fileId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Avatar {
+  id Int @id @default(autoincrement())
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+
+  fileId Int  @unique
+  file   File @relation(fields: [fileId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model User {
   id            Int        @id @default(autoincrement())
   username      String     @unique
@@ -22,6 +63,7 @@ model User {
   JWTtoken      JWTtoken[]
   rooms         RoomUser[]
   Room          Room[]
+  avatar        Avatar?
 }
 
 model RoomUser {
@@ -90,4 +132,5 @@ model Message {
   roomId    Int
   user      User     @relation(fields: [userId], references: [id])
   room      Room     @relation(fields: [roomId], references: [id])
+  voice     Voice?
 }
