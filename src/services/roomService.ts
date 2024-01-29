@@ -62,6 +62,7 @@ export const getMessages = async ({
         updatedAt: true,
         userId: true,
         deleted: true,
+        user: true,
         roomId: true,
       },
       orderBy: { createdAt: "desc" },

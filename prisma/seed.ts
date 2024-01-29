@@ -18,6 +18,14 @@ async function main() {
       email: "quang@gmail.com",
     },
   });
+  const tho = await prisma.user.create({
+    data: {
+      name: "tho",
+      username: "tho",
+      password: await createPassword("12345678"),
+      email: "tho@gmail.com",
+    },
+  });
   const rooms = await Promise.all(
     Array.from({ length: totalRoom }, async (_, index) => {
       const room = await prisma.room.create({
@@ -35,7 +43,12 @@ async function main() {
       return room;
     })
   );
-
+  await prisma.roomUser.create({
+    data: {
+      userId: tho.id,
+      roomId: 1,
+    },
+  });
   console.time(`👤 Created ${totalUsers} users...`);
   const users = await Promise.all(
     Array.from({ length: totalUsers }, async (_, index) => {
