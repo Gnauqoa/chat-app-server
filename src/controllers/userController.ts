@@ -4,10 +4,22 @@ import {
   signIn,
   updateUser,
   userSelect,
+  updatePassword,
 } from "../services/userService";
 import prisma from "../config/prisma";
 
 class UserController {
+  async changePassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { password } = req.body;
+      const { userId } = res.locals.user;
+      return res
+        .status(200)
+        .json({ data: await updatePassword({ password, id: userId }) });
+    } catch (error) {
+      next(error);
+    }
+  }
   async searchUserByName(req: Request, res: Response, next: NextFunction) {
     try {
       const name = req.query.name as string;

@@ -49,7 +49,20 @@ export const searchUserByName = async ({
     total_pages: Math.ceil(totalItems / take),
   };
 };
-
+export const updatePassword = async ({
+  password,
+  id,
+}: {
+  id: number;
+  password: string;
+}) => {
+  const hashPassword = await bcrypt.hash(password, 10);
+  const user = await prisma.user.update({
+    where: { id },
+    data: { password: hashPassword },
+  });
+  return user;
+};
 export const updateUser = async ({
   name,
   id,

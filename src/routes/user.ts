@@ -9,6 +9,7 @@ const userController = new UserController();
 // Update the type of the authenticateToken middleware
 
 router.post("/signIn", userController.signIn);
+router.put("password", userController.changePassword);
 router.get("/current", [authenticateToken], userController.current);
 router.put("/current", [authenticateToken], userController.update);
 router.get(
